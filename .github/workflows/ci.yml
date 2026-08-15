@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Check Markdown links
+      uses: lycheeverse/lychee-action@v1
+      with:
+        args: --timeout 30 docs/ README.md
+      continue-on-error: true
+    
+    - name: Markdown lint
+      uses: DavidAnson/markdownlint-cli2-action@v14
+      with:
+        globs: 'docs/**/*.md'
+      continue-on-error: true
